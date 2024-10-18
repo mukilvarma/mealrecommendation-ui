@@ -1,0 +1,31 @@
+<div>
+    <h2>Get Healthy Recipe Recommendations</h2>
+    <form (ngSubmit)="fetchHealthyRecipes()">
+      <label for="cuisineType">Cuisine Type:</label>
+      <input list="cuisine-types" id="cuisineType" [(ngModel)]="cuisineType" name="cuisineType" required />
+      <datalist id="cuisine-types">
+        <option value="Italian"></option>
+        <option value="Chinese"></option>
+        <option value="Mexican"></option>
+        <option value="Indian"></option>
+        <option value="Thai"></option>
+      </datalist>
+      <br/>
+
+      <label for="city">City:</label>
+      <input type="text" id="city" [(ngModel)]="city" name="city" required />
+      <br/>
+
+      <button type="submit">Get Recipes</button>
+    </form>
+  
+    <div *ngIf="recipes.length">
+      <h3>Recommended Recipes</h3>
+      <ul>
+        <li *ngFor="let recipe of recipes">
+          <strong>{{ recipe.name }}</strong> - {{ recipe.description }} ({{ recipe.calories }} calories)
+        </li>
+      </ul>
+    </div>
+  </div>
+  
