@@ -1,27 +1,39 @@
-# MealRecommendation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.10.
+# Meal Recommendation UI
 
-## Development server
+This is the front-end application for the Meal Recommendation System built with Angular.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Features
+- Search for restaurants by cuisine type and city.
+- View recommended healthy recipes.
 
-## Code scaffolding
+## Prerequisites
+- Npm
+- Angular CLI
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Setup Instructions
 
-## Build
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mukilvarma/mealrecommendation-ui.git
+   cd mealrecommendation-ui
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Running unit tests
+3. Run the app:
+   ```bash
+   ng serve
+   ```
+   Open `http://localhost:4200` in your browser.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Build for Production
+```bash
+ng build
+```
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## API Integration
+Make sure the backend [Meal Recommendation API](https://github.com/mukilvarma/mealrecommendation) is running for full functionality.
