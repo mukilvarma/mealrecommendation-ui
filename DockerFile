@@ -1,0 +1,24 @@
+# Use node 18.x as the base image
+FROM node:18
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Install Angular CLI
+RUN npm install -g @angular/cli
+
+# Copy the package.json and install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy all the source code
+COPY . .
+
+# Build the Angular app
+RUN npm run build --prod
+
+# Expose the port
+EXPOSE 4200
+
+# Start the Angular app
+CMD ["npm", "start"]
