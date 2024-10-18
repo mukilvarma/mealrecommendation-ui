@@ -1,0 +1,40 @@
+name: Deploy Frontend to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build Angular app
+      run: npm run build --prod
+
+    - name: Build Docker image
+      run: docker build -t mealrecommendation-frontend .
+
+    - name: Log in to AWS ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Push to ECR
+      run: |
+        docker tag mealrecommendation-frontend:latest <aws-account-id>.dkr.ecr.<region>.amazonaws.com/mealrecommendation-frontend:latest
+        docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/mealrecommendation-frontend:latest
+
+    - name: Deploy to ECS
+      run: aws ecs update-service --cluster <your-cluster-name> --service <your-service-name> --force-new-deployment
