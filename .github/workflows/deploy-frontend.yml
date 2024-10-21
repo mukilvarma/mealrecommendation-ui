@@ -30,16 +30,16 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t mealrecommendation-angular .
+        docker build -t mealrecommendation-ui .
 
     - name: Tag Docker image
       run: |
-        docker tag mealrecommendation-angular:latest 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-angular:latest
+        docker tag mealrecommendation-ui:latest 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-ui:latest
 
     - name: Push to ECR
       run: |
-        docker push 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-angular:latest
+        docker push 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-ui:latest
 
     - name: Deploy to ECS
       run: |
-        aws ecs update-service --cluster mealrecommendation --service mealrecommendation-angular-service --force-new-deployment
+        aws ecs update-service --cluster mealrecommendation --service mealrecommendation-ui-service --force-new-deployment
