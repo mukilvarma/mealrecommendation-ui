@@ -18,7 +18,7 @@ RUN npm run build --prod
 
 # Serve the application
 FROM nginx:alpine
-COPY --from=build /app/dist/mealrecommendation-ui /usr/share/nginx/html
+COPY --from=build /app/dist/meal-recommendation /usr/share/nginx/html
 
 # Expose port
 EXPOSE 80
