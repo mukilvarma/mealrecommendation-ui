@@ -1,7 +1,10 @@
-name: Deploy Frontend to AWS
+name: Deploy Angular App to AWS ECS
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -10,31 +13,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        node-version: '18'
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
 
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build Angular app
-      run: npm run build --prod
+    - name: Login to Amazon ECR
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        registry-type: private
 
     - name: Build Docker image
-      run: docker build -t mealrecommendation-frontend .
+      run: |
+        docker build -t mealrecommendation-angular .
 
-    - name: Log in to AWS ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+    - name: Tag Docker image
+      run: |
+        docker tag mealrecommendation-angular:latest 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-angular:latest
 
     - name: Push to ECR
       run: |
-        docker tag mealrecommendation-frontend:latest <aws-account-id>.dkr.ecr.<region>.amazonaws.com/mealrecommendation-frontend:latest
-        docker push <aws-account-id>.dkr.ecr.<region>.amazonaws.com/mealrecommendation-frontend:latest
+        docker push 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-angular:latest
 
     - name: Deploy to ECS
-      run: aws ecs update-service --cluster <your-cluster-name> --service <your-service-name> --force-new-deployment
+      run: |
+        aws ecs update-service --cluster mealrecommendation --service mealrecommendation-angular-service --force-new-deployment
