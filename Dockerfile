@@ -13,9 +13,6 @@ RUN npm install --legacy-peer-deps
 # Copy the rest of your application code
 COPY . .
 
-# Set environment variable to allow OpenSSL legacy support (if needed)
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
 # Build the application
 RUN npm run build --prod
 
