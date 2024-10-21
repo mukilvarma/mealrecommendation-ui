@@ -30,15 +30,15 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t mealrecommendation-ui .
+        docker build -t meal-recommendation .
 
     - name: Tag Docker image
       run: |
-        docker tag mealrecommendation-ui:latest 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-ui:latest
+        docker tag meal-recommendation:latest 340752798287.dkr.ecr.ap-south-1.amazonaws.com/meal-recommendation:latest
 
     - name: Push to ECR
       run: |
-        docker push 340752798287.dkr.ecr.ap-south-1.amazonaws.com/mealrecommendation-ui:latest
+        docker push 340752798287.dkr.ecr.ap-south-1.amazonaws.com/meal-recommendation:latest
 
     - name: Deploy to ECS
       run: |
