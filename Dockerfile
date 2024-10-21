@@ -1,7 +1,7 @@
-# Use Node.js version 16 as the base image
-FROM node:16
+# Base image
+FROM node:16 AS build
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json
@@ -10,14 +10,18 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of your application code
+# Copy the rest of the application code
 COPY . .
 
-# Build the application
+# Build the Angular app
 RUN npm run build --prod
 
-# Expose the port the app runs on (update to your application's port)
-EXPOSE 4200
+# Serve the application
+FROM nginx:alpine
+COPY --from=build /app/dist/mealrecommendation-ui /usr/share/nginx/html
 
-# Start the application (update this command according to how you serve your Angular app)
-CMD ["npm", "start"]
+# Expose port
+EXPOSE 80
+
+# Command to run the application
+CMD ["nginx", "-g", "daemon off;"]
