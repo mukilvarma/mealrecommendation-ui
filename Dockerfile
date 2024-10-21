@@ -20,7 +20,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Copy the build artifacts from the previous stage to Nginx
-COPY --from=build /app/dist/YOUR_PROJECT_NAME /usr/share/nginx/html
+COPY --from=build /app/dist/mealrecommendation-ui /usr/share/nginx/html
 
 # Expose the port the app runs on
 EXPOSE 80
