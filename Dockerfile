@@ -1,27 +1,26 @@
-# Use the official Node.js image as the base image
-FROM node:18 AS build
+# Use Node.js version 16 as the base image
+FROM node:16
 
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package files first
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies with legacy-peer-deps
+# Install dependencies
 RUN npm install --legacy-peer-deps
 
 # Copy the rest of your application code
 COPY . .
 
+# Set environment variable to allow OpenSSL legacy support (if needed)
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 # Build the application
 RUN npm run build --prod
 
-# Use NGINX for serving the app
-FROM nginx:alpine
+# Expose the port the app runs on (update to your application's port)
+EXPOSE 4200
 
-# Copy build files to NGINX
-COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application (update this command according to how you serve your Angular app)
+CMD ["npm", "start"]
