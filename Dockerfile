@@ -1,29 +1,27 @@
 # Use the official Node.js image as the base image
 FROM node:18 AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files first
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with legacy-peer-deps
+RUN npm install --legacy-peer-deps
 
 # Copy the rest of your application code
 COPY . .
 
-# Build the Angular application
+# Build the application
 RUN npm run build --prod
 
-# Use Nginx to serve the application
+# Use NGINX for serving the app
 FROM nginx:alpine
 
-# Copy the build artifacts from the previous stage to Nginx
-COPY --from=build /app/dist/mealrecommendation-ui /usr/share/nginx/html
+# Copy build files to NGINX
+COPY --from=build /app/dist/your-app-name /usr/share/nginx/html
 
-# Expose the port the app runs on
+# Expose port 80
 EXPOSE 80
 
-# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
