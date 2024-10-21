@@ -21,7 +21,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist/meal-recommendation /usr/share/nginx/html
 
 # Expose port
-EXPOSE 80
+EXPOSE 4200
 
 # Command to run the application
 CMD ["nginx", "-g", "daemon off;"]
