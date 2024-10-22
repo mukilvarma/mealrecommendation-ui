@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MenuItem } from '../models/menu-item.model'; 
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MealService {
-  private baseUrl = 'http://localhost:8080'; // Change to your backend URL
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
