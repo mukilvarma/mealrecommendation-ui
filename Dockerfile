@@ -1,27 +1,29 @@
-# Base image
+# Step 1: Build the Angular application
 FROM node:16 AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the Angular app
+# Build the application
 RUN npm run build --prod
 
-# Serve the application
+# Step 2: Use NGINX to serve the Angular application
 FROM nginx:alpine
+
+# Copy the built Angular application from the previous step
 COPY --from=build /app/dist/meal-recommendation /usr/share/nginx/html
 
-# Expose port
-EXPOSE 4200
+# Expose port 80 to make the app accessible
+EXPOSE 80
 
-# Command to run the application
+# Run NGINX
 CMD ["nginx", "-g", "daemon off;"]
+
